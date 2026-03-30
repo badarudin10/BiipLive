@@ -1,79 +1,225 @@
-body {
+/* --- RESET & DASAR --- */
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --main-green: #00ff00; /* Hijau Terang */
+    --main-green-dim: rgba(0, 255, 0, 0.2);
+    --icon-bg: rgba(0, 0, 0, 0.5);
+    --bottom-nav-bg: #121212;
+}
+
+* {
     margin: 0;
     padding: 0;
-    background-color: #121212;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Hapus highlight klik di mobile */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Mencegah scroll body */
+}
+
+/* --- CONTAINER UTAMA (Frame HP Profesional) --- */
+.app-container {
+    width: 100%;
+    max-width: 480px; /* Batas lebar agar tidak terlalu lebar di PC */
     height: 100vh;
-    font-family: sans-serif;
+    background: black;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- BAGIAN VIDEO (Full Screen Profesional) --- */
+#biiplive-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Video akan memenuhi layar tanpa distorsi */
+    z-index: 1;
+}
+
+/* --- OVERLAY UI (Semua elemen di atas video) --- */
+.ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto; /* Memungkinkan elemen di dalamnya diklik */
+}
+
+/* --- SIDE BAR (Tombol Samping Kanan) --- */
+.side-bar {
+    position: absolute;
+    right: 12px;
+    bottom: 150px; /* Menyesuaikan dengan info bawah */
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    z-index: 3;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    background: none;
+    border: none;
     color: white;
 }
 
-.phone-screen {
-    width: 375px;
-    height: 667px;
-    background-color: black;
-    border: 8px solid #333;
-    border-radius: 30px;
-    position: relative;
-    overflow: hidden;
-}
-
-.video-area {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(45deg, #1f1c2c, #928dab);
-}
-
-.side-icons {
-    position: absolute;
-    right: 15px;
-    bottom: 120px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.icon-btn {
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.2);
+.action-btn .icon {
+    font-size: 28px;
+    width: 50px;
+    height: 50px;
+    background: var(--icon-bg);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5px;
+    transition: transform 0.1s ease;
+}
+
+.action-btn:active .icon {
+    transform: scale(0.9); /* Efek pencet */
+}
+
+.action-btn .count {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* --- BOTTOM INFO (Teks Bawah Kiri) --- */
+.bottom-info {
+    position: absolute;
+    bottom: 70px; /* Di atas bottom nav */
+    left: 15px;
+    right: 80px; /* Beri ruang untuk side bar */
+    z-index: 3;
+    pointer-events: none; /* Klik tembus ke video */
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    pointer-events: auto; /* Aktifkan klik area profil */
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.follow-btn {
+    background: var(--main-green);
+    color: black;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px;
     cursor: pointer;
 }
 
-.bottom-info {
-    position: absolute;
-    bottom: 20px;
-    left: 15px;
-    right: 80px;
+.caption {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Batasi 2 baris teks */
+    -webkit-box-orient: vertical;
 }
 
-.username { font-weight: bold; color: #00f2ea; margin-bottom: 5px; }
-.caption { font-size: 14px; margin-bottom: 8px; }
+.music-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.music-text-container {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Efek Teks Berjalan (Marquee) - Tambahan Profesional */
+.music-text {
+    display: inline-block;
+    animation: musicScroll 8s linear infinite;
+}
+
+@keyframes musicScroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* --- BOTTOM NAV (Navigasi Bawah) --- */
 .bottom-nav {
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
-    height: 50px;
-    background: black;
+    height: 60px;
+    background-color: var(--bottom-nav-bg);
+    border-top: 1px solid #222;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border-top: 1px solid #333;
+    z-index: 4;
+}
+
+.nav-item {
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    color: var(--main-green); /* Hijau Terang untuk tab aktif */
+}
+
+.upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .upload-btn {
-    background: white;
-    color: black;
-    padding: 2px 12px;
-    border-radius: 8px;
+    font-size: 24px;
     font-weight: bold;
-    font-size: 20px;
+    color: black;
+    background: var(--main-green); /* Hijau Terang tombol upload */
+    padding: 2px 14px;
+    border-radius: 8px;
 }
+
