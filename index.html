@@ -8,10 +8,13 @@
 </head>
 <body>
 
-    <div class="phone-screen">
-        <div class="video-area">
-            <h1>Biiplive 🎬</h1>
-        </div>
+    <div class="video-area">
+    <video id="biiplive-video" loop autoplay muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Browser kamu tidak mendukung video.
+    </video>
+</div>
+
 
         <div class="side-icons">
             <div class="icon-btn">❤️</div>
@@ -19,7 +22,14 @@
             <div class="icon-btn">🔄</div>
         </div>
 
-        <div class="bottom-info">
+        <div class="bottom-nav">
+    <span>🏠</span>
+    <span>🔍</span>
+    <span class="upload-btn">+</span>
+    <span>💬</span>
+    <span>👤</span>
+</div>
+
             <div class="username">@azzam_biiplive</div>
             <div class="caption">Mencoba fitur efek terbaru di Biiplive! #coding #biipsite</div>
             <div class="music">🎵 Musik: Hits 2026 - Artist Name</div>
@@ -27,4 +37,29 @@
     </div>
 
 </body>
-</html>
+<script>
+    const likeBtn = document.querySelector('.icon-btn:nth-child(1)');
+    let liked = false;
+
+    likeBtn.addEventListener('click', () => {
+        liked = !liked;
+        if (liked) {
+            likeBtn.innerHTML = '❤️'; // Hati merah
+            likeBtn.style.background = 'rgba(255, 0, 0, 0.4)';
+        } else {
+            likeBtn.innerHTML = '🤍'; // Hati putih
+            likeBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+        }
+    });
+
+    // Klik pada video untuk Play/Pause
+    const video = document.getElementById('biiplive-video');
+    video.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
+</script>
+
