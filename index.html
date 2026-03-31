@@ -1,76 +1,24 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiipLifeStory - Rumah Cerita</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <section id="landing-screen" class="hero-fade">
-        <div class="glass-card">
-            <h1 class="brand-title">BiipLifeStory</h1>
-            <p class="tagline">Selamat datang, Penulis. <br> Tuangkan setiap jejak langkahmu di sini.</p>
-            
-            <div class="auth-box">
-                <input type="text" id="user-input" placeholder="Nama Penulis" class="input-field">
-                <input type="password" id="pass-input" placeholder="Kunci Rahasia (Sandi)" class="input-field">
-                <button onclick="aksesMasuk()" class="btn-primary">Buka Lembaran Baru</button>
-            </div>
-            <p class="footer-note">Aman & Pribadi. Hanya Anda yang memegang kuncinya.</p>
+<section id="landing-screen" class="hero-fade">
+    <div class="glass-card">
+        <h1 class="brand-title">BiipLifeStory</h1>
+        <p class="tagline">Selamat datang, Penulis. <br> Tuangkan setiap jejak langkahmu di sini.</p>
+        
+        <div class="auth-box">
+            <input type="text" id="user-input" placeholder="Nama Penulis" class="input-field">
+            <input type="password" id="pass-input" placeholder="Kunci Rahasia (Sandi)" class="input-field">
+            <button onclick="aksesMasuk()" class="btn-primary">Buka Lembaran Baru</button>
         </div>
-    </section>
-
-    <section id="main-dashboard" class="hidden">
-        <div class="container">
-            <h2 class="dash-title">Pilih Kanvas Jiwamu</h2>
-            <div class="theme-grid">
-                <div class="card botanical" onclick="pilihTema('Botanical')">🌿 Botanical</div>
-                <div class="card celestial" onclick="pilihTema('Celestial')">✨ Celestial</div>
-                <div class="card archive" onclick="pilihTema('Archive')">📜 Archive</div>
-                <div class="card watercolor" onclick="pilihTema('Watercolor')">🎨 Watercolor</div>
-            </div>
         </div>
-    </section>
+</section>
 
-    <script>
-        function aksesMasuk() {
-            const u = document.getElementById('user-input').value;
-            const p = document.getElementById('pass-input').value;
-
-            if (u === "" || p === "") {
-                alert("Harap isi nama dan sandi untuk memulai.");
-                return;
-            }
-
-            // SISTEM OTOMATIS: Jika akun baru, langsung simpan & masuk.
-            let savedPass = localStorage.getItem('pass_' + u);
-            if (!savedPass) {
-                localStorage.setItem('pass_' + u, p);
-                savedPass = p;
-            }
-
-            if (p === savedPass) {
-                localStorage.setItem('currentUser', u);
-                // Transisi halus
-                document.getElementById('landing-screen').classList.add('fade-out');
-                setTimeout(() => {
-                    document.getElementById('landing-screen').style.display = 'none';
-                    document.getElementById('main-dashboard').classList.remove('hidden');
-                    document.getElementById('main-dashboard').classList.add('fade-in');
-                }, 500);
-            } else {
-                alert("Sandi tidak cocok dengan akun yang sudah ada!");
-            }
-        }
-
-        function pilihTema(t) {
-            localStorage.setItem('temaDipilih', t);
-            window.location.href = 'tulis.html';
-        }
-    </script>
-</body>
-</html>
-
+<section id="main-dashboard" class="hidden">
+    <div class="container">
+        <h2 class="dash-title">Pilih Kanvas Jiwamu</h2>
+        <div class="theme-grid">
+            <div class="card botanical" onclick="pilihTema('Botanical')">🌿 Botanical</div>
+            <div class="card celestial" onclick="pilihTema('Celestial')">✨ Celestial</div>
+            <div class="card archive" onclick="pilihTema('Archive')">📜 Archive</div>
+            <div class="card watercolor" onclick="pilihTema('Watercolor')">🎨 Watercolor</div>
+        </div>
+    </div>
+</section>
