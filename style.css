@@ -1,78 +1,56 @@
-:root {
-    --white: #ffffff;
-    --soft-gray: #f8f9fa;
-    --primary: #56ab2f;
-    --text-dark: #2d3436;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: #fdfcfb; color: #333; }
 
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--soft-gray);
-    color: var(--text-dark);
-    overflow-x: hidden;
-}
+/* Menghilangkan elemen yang tidak aktif */
+.hidden { display: none !important; }
 
-/* LANDING PAGE STYLE */
-.full-page {
+/* Container Utama */
+.app-container { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* 1. LAYAR LOGIN (Sesuai Gambar 68708) */
+.hero-login {
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), 
-                url('https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=1000&q=80');
-    background-size: cover;
-    text-align: center;
-    padding: 20px;
+    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+    display: flex; justify-content: center; align-items: center;
 }
-
-.logo-text { font-size: 3rem; color: var(--primary); margin: 0; font-weight: 700; }
-.tagline { font-size: 1.1rem; color: #636e72; margin-bottom: 30px; }
-
+.glass-card {
+    background: white; padding: 40px; border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    text-align: center; width: 90%; max-width: 400px;
+}
+.brand-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: #2d5a27; margin-bottom: 20px; }
+.input-field {
+    width: 100%; padding: 15px; margin-bottom: 15px;
+    border: 1.5px solid #eee; border-radius: 12px; outline: none; font-size: 1rem;
+}
 .btn-primary {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(86, 171, 47, 0.2);
-    transition: 0.3s;
+    width: 100%; padding: 16px; background: #2d5a27; color: white;
+    border: none; border-radius: 12px; font-weight: 600; cursor: pointer;
 }
 
-.btn-outline {
-    background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    padding: 13px 40px;
-    border-radius: 50px;
-    margin-left: 10px;
-    font-weight: 600;
-    cursor: pointer;
+/* 2. DASHBOARD TEMA (Mewah & Profesional - Gambar 68710) */
+.dashboard { padding: 40px 20px; max-width: 500px; margin: auto; text-align: center; }
+.theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+.card {
+    height: 160px; border-radius: 25px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; color: white; font-weight: 600;
+    cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
+.card:hover { transform: translateY(-5px); }
+.botanical { background: linear-gradient(145deg, #1e391a, #2d5a27); }
+.celestial { background: linear-gradient(145deg, #1a1c3a, #283593); }
+.archive { background: linear-gradient(145deg, #3e2723, #5d4037); }
+.watercolor { background: linear-gradient(145deg, #880e4f, #ad1457); }
 
-/* THEME DASHBOARD */
-.container { padding: 40px 20px; }
-.section-title { text-align: center; margin-bottom: 30px; }
-
-.theme-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
+/* 3. KERTAS MENULIS (Bersih Sesuai Gambar 68701) */
+.writing-area { background: #f9fbf9; min-height: 100vh; padding: 40px 25px; display: flex; flex-direction: column; }
+#judul-kisah {
+    width: 100%; font-size: 2.2rem; border: none; outline: none;
+    background: transparent; font-family: 'Playfair Display', serif; margin-bottom: 15px;
 }
-
-.theme-card {
-    padding: 25px;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
+#isi-kisah {
+    flex-grow: 1; width: 100%; border: none; outline: none; background: transparent;
+    font-size: 1.25rem; font-family: 'Playfair Display', serif; line-height: 1.8;
 }
-
-.theme-card:hover { transform: scale(1.05); }
-.theme-card .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-.theme-card h3 { margin: 10px 0 5px; }
-.theme-card p { font-size: 0.8rem; opacity: 0.9; }
+.action-bar { display: flex; gap: 10px; margin-top: 30px; }
+.btn-save { padding: 15px 20px; border: none; border-radius: 12px; font-weight: 600; color: white; cursor: pointer; }
