@@ -1,13 +1,33 @@
-<div class="art-paper">
-    <input type="text" id="judul" placeholder="Judul Kisahmu..." 
-           style="width:100%; font-size:2rem; border:none; outline:none; background:transparent; font-family:'Playfair Display'; margin-bottom:10px;">
-    
-    <textarea id="story-input" placeholder="Tuliskan jiwamu di sini..."></textarea>
-    
-    <div class="action-bar">
-        <button onclick="save()" class="btn-action" style="background:#333;">Simpan Pribadi</button>
-        <button onclick="publish()" class="btn-action" style="background:#2d5a27;">Simpan Publik</button>
-        <button onclick="window.print()" class="btn-action" style="background:#d4af37;">Cetak Kisah 🖨️</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="art-paper">
+        <input type="text" id="judul" placeholder="Judul Kisahmu..." 
+               style="width:100%; font-size:2rem; border:none; outline:none; background:transparent; font-family:'Playfair Display';">
+        
+        <textarea id="story-input" placeholder="Tuliskan jiwamu di sini..."></textarea>
+        
+        <div class="action-bar">
+            <button onclick="downloadFile()" class="btn-action" style="background:#333;">Simpan Pribadi</button>
+            <button onclick="alert('Tersimpan Publik')" class="btn-action" style="background:#2d5a27;">Simpan Publik</button>
+            <button onclick="window.print()" class="btn-action" style="background:#d4af37;">Cetak Kisah (Print) 🖨️</button>
+        </div>
     </div>
-</div>
+
+    <script>
+        function downloadFile() {
+            const j = document.getElementById('judul').value || "Tanpa Judul";
+            const i = document.getElementById('story-input').value;
+            const blob = new Blob([i], {type: "text/plain"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = j + ".txt";
+            a.click();
+        }
+    </script>
+</body>
+</html>
 
