@@ -1,70 +1,43 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menulis Kisah - BiipLifeStory</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .art-paper {
-            background: white; min-height: 90vh; margin: 20px; border-radius: 10px;
-            padding: 50px; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        /* Pernak-pernik tema */
-        .decor-top { position: absolute; top: 0; right: 0; width: 150px; opacity: 0.7; pointer-events: none; }
-        .decor-bottom { position: absolute; bottom: 0; left: 0; width: 150px; opacity: 0.7; pointer-events: none; }
-        
-        #story-input {
-            width: 100%; height: 500px; border: none; outline: none;
-            font-size: 1.2rem; font-family: 'Playfair Display', serif;
-            line-height: 1.8; background: transparent;
-        }
+<div class="art-paper" id="paper">
+    <button onclick="history.back()" class="back-btn">⬅ Dashboard</button>
+    
+    <input type="text" id="judul-kisah" placeholder="Masukkan Judul Kisahmu..." 
+           style="width: 100%; border: none; font-size: 2rem; font-family: 'Playfair Display', serif; outline: none; color: #2d5a27; margin-bottom: 20px;">
 
-        .action-bar { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-pribadi { background: #444; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; }
-        .btn-publik { background: #2d5a27; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; }
-        .btn-print { background: #d4af37; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; }
+    <textarea id="story-input" placeholder="Tuliskan jiwamu di sini..."></textarea>
 
-        @media print {
-            .btn-group, .back-btn { display: none !important; }
-            .art-paper { box-shadow: none; margin: 0; padding: 20px; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="art-paper" id="paper">
-        <img id="decor-t" class="decor-top" src="">
-        <img id="decor-b" class="decor-bottom" src="">
-
-        <button onclick="history.back()" class="back-btn">⬅ Dashboard</button>
-        <h2 id="paper-title" style="font-family: 'Playfair Display', serif; color: #2d5a27;"></h2>
-
-        <textarea id="story-input" placeholder="Tuliskan jiwamu di sini..."></textarea>
-
-        <div class="action-bar btn-group">
-            <button class="btn-pribadi" onclick="alert('Kisah tersimpan di diary pribadi🔒')">Simpan Pribadi</button>
-            <button class="btn-publik" onclick="alert('Kisah dipublikasikan! 🌍')">Simpan Publik</button>
-            <button class="btn-print" onclick="window.print()">Cetak Kisah (Print) 🖨️</button>
-        </div>
+    <div class="action-bar btn-group">
+        <button class="btn-pribadi" onclick="simpanKePerangkat()">Simpan Pribadi (Download)</button>
+        <button class="btn-publik" onclick="alert('Kisah dikirim ke publik!')">Simpan Publik</button>
+        <button class="btn-print" onclick="window.print()">Cetak (Print)</button>
     </div>
+</div>
 
-    <script>
-        const tema = localStorage.getItem('temaDipilih');
-        document.getElementById('paper-title').innerText = "Lembaran " + tema;
+<script>
+    function simpanKePerangkat() {
+        const judul = document.getElementById('judul-kisah').value || "Kisah Tanpa Judul";
+        const isi = document.getElementById('story-input').value;
+        const teksLengkap = `Judul: ${judul}\n\n${isi}`;
+        
+        // Membuat file otomatis untuk diunduh ke perangkat
+        const blob = new Blob([teksLengkap], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${judul}.txt`;
+        link.click();
+        
+        alert("Kisahmu berhasil disimpan ke folder Download perangkat!");
+    }
 
-        // Set dekorasi sesuai tema
-        if(tema === 'Botanical') {
-            document.getElementById('decor-t').src = "https://www.transparentpng.com/download/leaves/green-leaves-png-images-free-download-23.png";
-            document.getElementById('paper').style.background = "#f7fff7";
-        } else if(tema === 'Celestial') {
-            document.getElementById('decor-t').src = "https://www.transparentpng.com/download/star/gold-star-png-3.png";
-            document.getElementById('paper').style.background = "#fcfaff";
-        } else if(tema === 'Archive') {
-            document.getElementById('paper').style.background = "#f4efe1";
-        }
-    </script>
-</body>
-</html>
-
+    // Perbaikan Visual Dekorasi agar tidak error
+    const tema = localStorage.getItem('temaDipilih');
+    const paper = document.getElementById('paper');
+    
+    if(tema === 'Botanical') {
+        paper.style.borderLeft = "15px solid #2d5a27";
+        paper.style.borderRight = "15px solid #2d5a27";
+    } else if(tema === 'Archive') {
+        paper.style.backgroundColor = "#f3e5ab";
+        paper.style.border = "2px solid #8b4513";
+    }
+</script>
