@@ -18,7 +18,7 @@
     </div>
 
     <div id="dashboard-screen" class="hidden dashboard">
-        <h2 style="font-family:'Playfair Display'; font-size:1.8rem;">Pilih Kanvas Jiwamu</h2>
+        <h2 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:20px;">Pilih Kanvas Jiwamu</h2>
         <div class="theme-grid">
             <div class="card botanical" onclick="pilih('Botanical')">🌿 Botanical</div>
             <div class="card celestial" onclick="pilih('Celestial')">✨ Celestial</div>
@@ -35,7 +35,7 @@
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard-screen').classList.remove('hidden');
             } else {
-                alert("Isi Nama & Sandi!");
+                alert("Mohon masukkan Nama & Sandi.");
             }
         }
         function pilih(tema) {
@@ -45,3 +45,4 @@
     </script>
 </body>
 </html>
+
