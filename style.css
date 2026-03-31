@@ -1,232 +1,81 @@
-/* --- RESET & DASAR --- */
+/* style.css */
 :root {
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --main-green: #00ff00; /* Hijau Terang */
-    --main-green-dim: rgba(0, 255, 0, 0.2);
-    --icon-bg: rgba(0, 0, 0, 0.5);
-    --bottom-nav-bg: #121212;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* Hapus highlight klik di mobile */
+    --dark-green: #062c0b; /* Hijau Gelap untuk Dashboard */
+    --bright-green: #00ff00; /* Hijau Terang untuk Aksen */
+    --bg-dark: #000000;
+    --text-light: #f0f0f0;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Mencegah scroll body */
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- CONTAINER UTAMA (Frame HP Profesional) --- */
-.app-container {
-    width: 100%;
-    max-width: 480px; /* Batas lebar agar tidak terlalu lebar di PC */
-    height: 100vh;
-    background: black;
+.dashboard-container {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background-color: var(--dark-green);
     position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    padding-bottom: 70px;
 }
 
-/* --- BAGIAN VIDEO (Full Screen Profesional) --- */
-#biiplive-player {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Video akan memenuhi layar tanpa distorsi */
-    z-index: 1;
-    body { background: #000; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { width: 300px; text-align: center; padding: 20px; border: 1px solid #00ff00; border-radius: 15px; }
-        h2 { color: #00ff00; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #00ff00; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .footer { margin-top: 15px; font-size: 12px; color: #888; }
-        .footer a { color: #00ff00; text-decoration: none; }
+.main-header {
+    padding: 30px 20px;
+    background: linear-gradient(to bottom, #0a3d0f, var(--dark-green));
+    text-align: center;
 }
 
-/* --- OVERLAY UI (Semua elemen di atas video) --- */
-.ui-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
-    display: flex;
-    flex-direction: column;
-    pointer-events: auto; /* Memungkinkan elemen di dalamnya diklik */
-}
+.main-header h1 { color: var(--bright-green); margin: 0; font-size: 24px; }
 
-/* --- SIDE BAR (Tombol Samping Kanan) --- */
-.side-bar {
-    position: absolute;
-    right: 12px;
-    bottom: 150px; /* Menyesuaikan dengan info bawah */
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    align-items: center;
-    z-index: 3;
-}
-
-.action-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: white;
-}
-
-.action-btn .icon {
-    font-size: 28px;
-    width: 50px;
-    height: 50px;
-    background: var(--icon-bg);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5px;
-    transition: transform 0.1s ease;
-}
-
-.action-btn:active .icon {
-    transform: scale(0.9); /* Efek pencet */
-}
-
-.action-btn .count {
-    font-size: 12px;
-    font-weight: 600;
-}
-
-/* --- BOTTOM INFO (Teks Bawah Kiri) --- */
-.bottom-info {
-    position: absolute;
-    bottom: 70px; /* Di atas bottom nav */
-    left: 15px;
-    right: 80px; /* Beri ruang untuk side bar */
-    z-index: 3;
-    pointer-events: none; /* Klik tembus ke video */
-}
-
-.user-profile {
+.reward-section { padding: 15px; }
+.badge-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--bright-green);
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    pointer-events: auto; /* Aktifkan klik area profil */
+    gap: 15px;
+    padding: 10px 20px;
 }
 
-.avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid white;
-}
-
-.username {
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.follow-btn {
-    background: var(--main-green);
+.action-area { padding: 20px; text-align: center; }
+.write-btn {
+    background: var(--bright-green);
     color: black;
     border: none;
-    padding: 3px 10px;
-    border-radius: 4px;
-    font-weight: 700;
-    font-size: 12px;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
 }
 
-.caption {
-    font-size: 14px;
-    line-height: 1.4;
+.story-list { padding: 0 20px; }
+.story-card {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 10px;
     margin-bottom: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Batasi 2 baris teks */
-    -webkit-box-orient: vertical;
+    border-left: 4px solid var(--bright-green);
 }
 
-.music-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    overflow: hidden;
-}
-
-.music-text-container {
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-/* Efek Teks Berjalan (Marquee) - Tambahan Profesional */
-.music-text {
-    display: inline-block;
-    animation: musicScroll 8s linear infinite;
-}
-
-@keyframes musicScroll {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* --- BOTTOM NAV (Navigasi Bawah) --- */
 .bottom-nav {
-    position: absolute;
+    position: fixed;
     bottom: 0;
-    left: 0;
     width: 100%;
+    max-width: 480px;
     height: 60px;
-    background-color: var(--bottom-nav-bg);
-    border-top: 1px solid #222;
+    background: #000;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 4;
 }
 
-.nav-item {
-    font-size: 22px;
-    color: #888;
-    cursor: pointer;
-}
-
-.nav-item.active {
-    color: var(--main-green); /* Hijau Terang untuk tab aktif */
-}
-
-.upload-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.upload-btn {
-    font-size: 24px;
-    font-weight: bold;
-    color: black;
-    background: var(--main-green); /* Hijau Terang tombol upload */
-    padding: 2px 14px;
-    border-radius: 8px;
-}
+.nav-item { font-size: 24px; text-decoration: none; color: #666; }
+.nav-item.active { color: var(--bright-green); }
 
