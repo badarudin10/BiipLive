@@ -2,72 +2,132 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiipLifeStory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BiipLifeStory | Professional Workspace</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="view-login" class="hero-login">
-        <div class="glass-card">
-            <h1 class="brand-title">BiipLifeStory</h1>
-            <input type="text" id="penulis" placeholder="Nama Penulis" class="input-field">
-            <input type="password" id="kunci" placeholder="Sandi Rahasia" class="input-field">
-            <button onclick="masuk()" class="btn-super">Buka Lembaran Baru</button>
+    <div id="view-auth" class="login-view">
+        <div class="glass-box">
+            <h1 class="brand">BiipLifeStory</h1>
+            <p style="color:#888; margin-bottom:30px;">Ruang sakral bagi setiap pemikiran.</p>
+            <input type="text" id="input-nama" placeholder="Nama Penulis" class="input-pro">
+            <input type="password" id="input-sandi" placeholder="Kunci Rahasia" class="input-pro">
+            <button onclick="prosesLogin()" class="btn-primary">Buka Lembaran Baru</button>
         </div>
     </div>
 
-    <div id="view-dash" class="hidden dashboard">
-        <h2 class="brand-title" style="font-size:2rem;">Selamat Datang Kembali, <span id="nama-user"></span></h2>
-        
-        <div class="theme-container">
-            <div class="theme-card botanical" onclick="pilihTema('botanical')">
-                <h3>Botanical</h3><p>Kebijaksanaan</p>
+    <div id="view-dash" class="hidden dash-view">
+        <h2 class="brand" style="font-size:2.4rem;">Salam, <span id="user-name"></span></h2>
+        <div class="grid-theme">
+            <div class="theme-box botanical" onclick="bukaKanvas('botanical')">
+                <h3>Botanical</h3><p>Kebijaksanaan & Pertumbuhan</p>
             </div>
-            <div class="theme-card celestial" onclick="pilihTema('celestial')">
-                <h3>Celestial</h3><p>Imajinasi</p>
+            <div class="theme-box celestial" onclick="bukaKanvas('celestial')">
+                <h3>Celestial</h3><p>Imajinasi Tanpa Batas</p>
+            </div>
+            <div class="theme-box archive" onclick="bukaKanvas('archive')">
+                <h3>Archive</h3><p>Keabadian Sejarah</p>
+            </div>
+            <div class="theme-box watercolor" onclick="bukaKanvas('watercolor')">
+                <h3>Watercolor</h3><p>Kejujuran Ekspresi</p>
             </div>
         </div>
 
-        <div class="library-section">
-            <h3>Arsip Karya Publik</h3>
-            <div id="list-karya"></div>
+        <div class="archive-section">
+            <h3 style="font-family:'Crimson Pro'; font-size:1.8rem; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:10px;">Arsip Karya Publik</h3>
+            <div id="arsip-konten"></div>
+        </div>
+    </div>
+
+    <div id="view-write" class="hidden write-view">
+        <img id="ornamen-tema" class="visual-ornamen" src="" alt="">
+        <input type="text" id="judul-naskah" class="editor-title" placeholder="Judul Mahakarya...">
+        <textarea id="isi-naskah" class="editor-body" placeholder="Biarkan kata-kata mengalir..."></textarea>
+        
+        <div class="action-dock">
+            <button onclick="unduhLokal()" class="btn-icon" style="background:#1a1a1a; color:white;">Simpan Pribadi</button>
+            <button onclick="publikasi()" class="btn-icon" style="background:#2d5a27; color:white;">Simpan Publik</button>
+            <button onclick="window.print()" class="btn-icon" style="background:#eee;">Cetak 🖨️</button>
+            <button onclick="navigasi('view-dash')" class="btn-icon" style="background:transparent; border:1px solid #ddd;">Kembali</button>
         </div>
     </div>
 
     <script>
-        function masuk() {
-            const p = document.getElementById('penulis').value;
-            if(p) {
-                localStorage.setItem('user_aktif', p);
-                document.getElementById('nama-user').innerText = p;
-                document.getElementById('view-login').classList.add('hidden');
-                document.getElementById('view-dash').classList.remove('hidden');
-                muatKarya();
-            }
+        function navigasi(id) {
+            document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            window.scrollTo(0,0);
         }
 
-        function muatKarya() {
-            const container = document.getElementById('list-karya');
-            const data = JSON.parse(localStorage.getItem('biip_stories') || "[]");
-            const user = localStorage.getItem('user_aktif');
-            const milikSaya = data.filter(s => s.penulis === user);
+        function prosesLogin() {
+            const n = document.getElementById('input-nama').value;
+            const s = document.getElementById('input-sandi').value;
+            if(n && s) {
+                localStorage.setItem('currentUser', n);
+                document.getElementById('user-name').innerText = n;
+                navigasi('view-dash');
+                muatArsip();
+            } else { alert("Ruang ide membutuhkan identitas."); }
+        }
 
-            if(milikSaya.length === 0) {
-                container.innerHTML = "<p>Belum ada karya.</p>";
+        function bukaKanvas(tema) {
+            const ornamen = {
+                'botanical': 'https://www.transparentpng.com/download/leaves/green-leaves-png-images-12.png',
+                'celestial': 'https://www.transparentpng.com/download/star/gold-star-transparent-background-21.png'
+            };
+            document.getElementById('ornamen-tema').src = ornamen[tema] || '';
+            document.getElementById('judul-naskah').value = "";
+            document.getElementById('isi-naskah').value = "";
+            localStorage.setItem('activeVibe', tema);
+            navigasi('view-write');
+        }
+
+        function unduhLokal() {
+            const j = document.getElementById('judul-naskah').value || "Tanpa Judul";
+            const i = document.getElementById('isi-naskah').value;
+            const blob = new Blob([`Karya: ${j}\n\n${i}`], {type: "text/plain"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `${j}.txt`;
+            a.click();
+        }
+
+        function publikasi() {
+            const j = document.getElementById('judul-naskah').value;
+            const i = document.getElementById('isi-naskah').value;
+            if(!j || !i) return alert("Lengkapi judul dan isi karya.");
+
+            let data = JSON.parse(localStorage.getItem('biip_stories_v2') || "[]");
+            data.push({
+                user: localStorage.getItem('currentUser'),
+                title: j,
+                content: i,
+                vibe: localStorage.getItem('activeVibe'),
+                date: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long'})
+            });
+            localStorage.setItem('biip_stories_v2', JSON.stringify(data));
+            alert("Karya berhasil diabadi dalam Arsip Publik!");
+            navigasi('view-dash');
+            muatArsip();
+        }
+
+        function muatArsip() {
+            const container = document.getElementById('arsip-konten');
+            const user = localStorage.getItem('currentUser');
+            const db = JSON.parse(localStorage.getItem('biip_stories_v2') || "[]").filter(s => s.user === user);
+            
+            if(db.length === 0) {
+                container.innerHTML = "<p style='color:#bbb; font-style:italic;'>Belum ada jejak karya.</p>";
                 return;
             }
-
-            container.innerHTML = milikSaya.map(s => `
-                <div class="story-item">
-                    <div><b>${s.judul}</b><br><small>${s.tanggal}</small></div>
+            container.innerHTML = db.reverse().map(s => `
+                <div class="card-story">
+                    <div><strong style="font-size:1.1rem;">${s.title}</strong><br><small style="color:#999;">${s.date}</small></div>
+                    <span style="font-size:0.7rem; padding:4px 10px; background:#f0f0f0; border-radius:8px; text-transform:uppercase;">${s.vibe}</span>
                 </div>
             `).join('');
-        }
-
-        function pilihTema(t) {
-            localStorage.setItem('chosen_vibe', t);
-            window.location.href = 'tulis.html';
         }
     </script>
 </body>
