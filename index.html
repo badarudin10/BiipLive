@@ -1,49 +1,42 @@
-<div id="main-dashboard" class="dashboard-hidden">
-    <div class="dash-content">
-        <h1 class="brand-logo-small">BiipLifeStory</h1>
-        <p class="sub-title">Pilih kanvas untuk jiwamu</p>
-        
-        <div class="theme-grid">
-            <div class="theme-card botanical" onclick="bukaDiary('Botanical')" style="border: 2px solid #2d5a27; background-color: #f0fdf4;">
-                <div class="card-overlay"><span>🌿 Botanical</span></div>
-            </div>
-            <div class="theme-card celestial" onclick="bukaDiary('Celestial')" style="border: 2px solid #6366f1; background-color: #f5f3ff;">
-                <div class="card-overlay"><span>✨ Celestial</span></div>
-            </div>
-            <div class="theme-card archive" onclick="bukaDiary('Archive')" style="border: 2px solid #b45309; background-color: #fffbeb;">
-                <div class="card-overlay"><span>📜 Archive</span></div>
-            </div>
-            <div class="theme-card watercolor" onclick="bukaDiary('Watercolor')" style="border: 2px solid #ec4899; background-color: #fdf2f8;">
-                <div class="card-overlay"><span>🎨 Watercolor</span></div>
-            </div>
+<div id="landing-screen" class="full-bg">
+    <div class="welcome-card">
+        <h1 class="brand-logo">BiipLifeStory</h1>
+        <div class="form-container">
+            <input type="text" id="user-input" placeholder="Nama Akun" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;">
+            <input type="password" id="pass-input" placeholder="Sandi" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc;">
+            <button onclick="prosesLogin()" style="width:100%; padding:15px; background:#2d5a27; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Masuk</button>
         </div>
     </div>
 </div>
 
+<div id="main-dashboard" style="display:none;">
+    <h1 class="brand-logo" style="text-align:center;">BiipLifeStory</h1>
+    <p style="text-align:center;">Pilih kanvas untuk jiwamu</p>
+    <div class="theme-grid">
+        <div class="theme-card botanical" onclick="bukaDiary('Botanical')">🌿 Botanical</div>
+        <div class="theme-card celestial" onclick="bukaDiary('Celestial')">✨ Celestial</div>
+        <div class="theme-card archive" onclick="bukaDiary('Archive')">📜 Archive</div>
+        <div class="theme-card watercolor" onclick="bukaDiary('Watercolor')">🎨 Watercolor</div>
+    </div>
+</div>
+
 <script>
-    // Sistem Login & Daftar Sederhana
     function prosesLogin() {
-        const user = document.getElementById('user-input').value;
-        const pass = document.getElementById('pass-input').value;
-
-        // Simulasi database lokal
-        let storedPass = localStorage.getItem('user_pass_' + user);
-
-        if(!storedPass) {
-            // Jika user belum ada, kita daftarkan otomatis (untuk pertama kali)
-            localStorage.setItem('user_pass_' + user, pass);
-            alert("Akun baru berhasil didaftarkan dengan sandi tersebut!");
-            storedPass = pass;
-        }
-
-        if(pass === storedPass) {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('activeUser', user);
-            
+        const u = document.getElementById('user-input').value;
+        const p = document.getElementById('pass-input').value;
+        
+        if(u === "admin" && p === "123") { // Ganti sesuai keinginanmu
             document.getElementById('landing-screen').style.display = 'none';
-            document.getElementById('main-dashboard').classList.remove('dashboard-hidden');
+            document.getElementById('main-dashboard').style.display = 'block';
+            localStorage.setItem('session', 'active');
         } else {
-            alert("Sandi salah! Akses ditolak.");
+            alert("Akses Ditolak! Gunakan akun yang benar.");
         }
     }
+
+    function bukaDiary(t) {
+        localStorage.setItem('temaDipilih', t);
+        window.location.href = 'tulis.html';
+    }
 </script>
+
