@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menulis Kisah - BiipLifeStory</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #ffffff; color: #1a1a1a; }
+        .writing-container { padding: 20px; max-width: 480px; margin: 0 auto; }
+        .back-link { color: #2d5a27; text-decoration: none; font-weight: bold; display: block; margin-bottom: 20px; }
+        
+        #story-input {
+            width: 100%;
+            height: 300px;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            line-height: 1.6;
+            font-family: 'Inter', serif;
+            background: transparent;
+            resize: none;
+        }
+
+        .inspiration-box {
+            background: #f4f7f4;
+            border-left: 4px solid #4ade80;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .save-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2d5a27;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="writing-container">
+        <a href="index.html" class="back-link">← Selesai</a>
+        
+        <h2 style="color: #2d5a27;">Kisah Hari Ini</h2>
+        <p style="color: #888; font-size: 12px;">31 Maret 2026</p>
+
+        <textarea id="story-input" placeholder="Apa yang kamu rasakan hari ini? Tuangkan semuanya di sini..."></textarea>
+
+        <div class="inspiration-box" id="ai-hint">
+            <strong>Saran Inspirasi:</strong> "Setiap kata yang kamu tulis adalah langkah untuk mengenal dirimu lebih baik. Teruskan!"
+        </div>
+
+        <button class="save-btn" onclick="simpanKisah()">Simpan Kisah</button>
+    </div>
+
+    <script>
+        function simpanKisah() {
+            alert("Kisahmu telah tersimpan di memori BiipLifeStory! ✨");
+            window.location.href = 'index.html';
+        }
+
+        // Fitur Inspirasi Otomatis
+        const input = document.getElementById('story-input');
+        const hint = document.getElementById('ai-hint');
+        
+        input.addEventListener('input', () => {
+            if(input.value.length > 50) {
+                hint.innerHTML = "<strong>Saran Inspirasi:</strong> Menarik sekali! Bagaimana perasaanmu saat kejadian itu berlangsung?";
+            }
+        });
+    </script>
+</body>
+</html>
