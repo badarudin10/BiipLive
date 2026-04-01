@@ -1,91 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Montserrat:wght@300;600&display=swap');
 
 :root {
-    --bg-paper: #fdfcf7; /* Warna gading sejuk */
+    --paper: #fdfcf7;
     --accent: #1a1a1a;
-    --shadow-pro: 0 25px 60px rgba(0,0,0,0.1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Montserrat', sans-serif; background: #f4f0e9; color: #1a1a1a; transition: 0.5s; }
+body { font-family: 'Montserrat', sans-serif; background: #f4f0e9; overflow-x: hidden; }
 .hidden { display: none !important; }
 
-/* --- 1. AUTHENTICATION (LOGIN & DAFTAR) --- */
-.auth-view { height: 100vh; display: flex; align-items: center; justify-content: center; }
-.auth-card {
-    background: white; padding: 50px 40px; border-radius: 40px; width: 90%; max-width: 420px;
-    box-shadow: var(--shadow-pro); text-align: center;
+/* 1. LAYER ORNAMEN (FIXED & NON-INTRUSIVE) */
+.ornament-layer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1; /* Di bawah teks, di atas background */
 }
-.brand { font-family: 'Crimson Pro', serif; font-size: 3rem; font-weight: 700; margin-bottom: 25px; }
-.input-pro {
-    width: 100%; padding: 18px; margin-bottom: 12px; border: 1.5px solid #eee;
-    border-radius: 15px; font-size: 1rem; outline: none; background: #fafafa;
+.ornament {
+    position: absolute; width: 25vw; height: 100vh;
+    background-size: contain; background-repeat: no-repeat; opacity: 0.15;
+    transition: background-image 0.5s ease-in-out;
 }
-.btn-main {
-    width: 100%; padding: 18px; background: var(--accent); color: white;
-    border: none; border-radius: 15px; font-weight: 600; cursor: pointer;
+#orn-left { left: 0; background-position: left center; }
+#orn-right { right: 0; background-position: right center; }
+
+/* 2. AREA MENULIS (FULL WIDTH & EXPANDABLE) */
+.write-view {
+    position: relative; z-index: 10; min-height: 100vh;
+    background: var(--paper); padding: 60px 10%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.05);
 }
+.paper-inner { max-width: 1100px; margin: auto; }
 
-/* --- 2. DASHBOARD (MEWAH) --- */
-.dash-view { max-width: 850px; margin: auto; padding: 60px 20px; }
-.grid-themes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 40px 0; }
-.theme-card {
-    height: 180px; border-radius: 30px; cursor: pointer; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; color: white; transition: 0.4s; border: 4px solid #fff;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-.theme-card:hover { transform: translateY(-10px); }
-
-/* WARNA TEMA */
-.botanical { background: linear-gradient(135deg, #2d5a27, #1e391a); }
-.celestial { background: linear-gradient(135deg, #1a237e, #0d47a1); }
-.archive { background: linear-gradient(135deg, #4e342e, #3e2723); }
-.watercolor { background: linear-gradient(135deg, #ad1457, #880e4f); }
-
-/* --- 3. WRITING CANVAS (ORNAME & SEJUK) --- */
-.write-view { min-height: 100vh; background: var(--bg-paper); padding: 80px 40px; position: relative; overflow: hidden; }
-
-/* ORNAMEN VISUAL SISI KERTAS */
-.ornamen-kiri, .ornamen-kanan {
-    position: fixed; width: 300px; height: 350px; opacity: 0.12; 
-    pointer-events: none; z-index: 1; transition: 1s; background-size: contain; background-repeat: no-repeat;
-}
-.ornamen-kiri { bottom: 0; left: -50px; transform: rotate(15deg); }
-.ornamen-kanan { top: 0; right: -50px; transform: rotate(-15deg); }
-
-.paper-inner { max-width: 800px; margin: auto; position: relative; z-index: 10; }
 .editor-title {
-    font-family: 'Crimson Pro', serif; font-size: 3.5rem; border: none; outline: none;
-    background: transparent; width: 100%; font-weight: 700; margin-bottom: 20px;
+    font-family: 'Crimson Pro', serif; font-size: 4rem; border: none; outline: none;
+    background: transparent; width: 100%; font-weight: 700; margin-bottom: 30px;
+    color: var(--accent); letter-spacing: -1.5px;
 }
 .editor-body {
-    font-family: 'Crimson Pro', serif; font-size: 1.5rem; border: none; outline: none;
-    background: transparent; width: 100%; min-height: 500px; line-height: 2; color: #2c2c2c;
+    font-family: 'Crimson Pro', serif; font-size: 1.6rem; border: none; outline: none;
+    background: transparent; width: 100%; min-height: 70vh; line-height: 1.8;
+    color: #333; resize: none;
 }
 
-/* --- 4. ACTION DOCK (SUPERAKTIF) --- */
-.action-dock {
+/* 3. DOCK AKSI (FLOATING UI) */
+.dock {
     position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: rgba(255,255,255,0.92); backdrop-filter: blur(15px);
-    padding: 15px 30px; border-radius: 30px; display: flex; gap: 12px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.15); border: 1px solid #fff; z-index: 1000;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+    padding: 15px 30px; border-radius: 40px; display: flex; gap: 15px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 1px solid #fff; z-index: 1000;
 }
-.btn-action { padding: 12px 22px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
-.btn-wa { background: #25d366; color: white; }
-
-/* ARSIP */
-.story-item {
-    background: white; padding: 25px; border-radius: 20px; margin-bottom: 15px;
-    display: flex; justify-content: space-between; align-items: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.02); cursor: pointer; transition: 0.3s;
+.btn-dock {
+    padding: 12px 24px; border-radius: 20px; border: none; cursor: pointer;
+    font-weight: 600; font-size: 0.85rem; transition: 0.3s;
 }
-.story-item:hover { transform: scale(1.02); border: 1px solid #ddd; }
 
-/* PRINT (ANTI-TERPISAH) */
+/* 4. PDF ENGINE TWEAKS (Penting untuk hasil Print) */
 @media print {
-    .action-dock, .ornamen-kiri, .ornamen-kanan { display: none !important; }
-    body, .write-view { background: white !important; padding: 0 !important; }
+    .dock, .ornament-layer { display: none !important; }
+    .write-view { padding: 0 !important; background: white !important; }
+    .paper-inner { max-width: 100% !important; }
     .editor-title { text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; }
-    .paper-inner { max-width: 100%; }
 }
 
