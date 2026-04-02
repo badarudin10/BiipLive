@@ -2,138 +2,73 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>BiipLife Pro Writing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiipLifeStory - Rumah Cerita</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="ornament-layer">
-        <div id="orn-L" class="orn-side"></div>
-        <div id="orn-R" class="orn-side"></div>
-    </div>
-
-    <div id="v-auth" class="view-center">
-        <div class="card-auth">
-            <h1 style="font-family:'Crimson Pro'; font-size:3.5rem;">BiipLife</h1>
-            <p id="auth-msg" style="color:#888;">Silakan Masuk atau Daftar</p>
-            <input type="text" id="u-user" class="in-auth" placeholder="Nama Akun">
-            <input type="password" id="u-pass" class="in-auth" placeholder="Sandi Rahasia">
-            <button onclick="handleAuth()" class="btn-ui" style="background:#1a1a1a; color:white; width:100%; margin-top:10px;">MULAI MENULIS</button>
-            <p onclick="toggleReg()" id="reg-txt" style="font-size:11px; margin-top:15px; cursor:pointer; text-decoration:underline;">Belum ada akun? Daftar di sini.</p>
+    <section id="landing-screen" class="hero-fade">
+        <div class="glass-card">
+            <h1 class="brand-title">BiipLifeStory</h1>
+            <p class="tagline">Selamat datang, Penulis. <br> Tuangkan setiap jejak langkahmu di sini.</p>
+            
+            <div class="auth-box">
+                <input type="text" id="user-input" placeholder="Nama Penulis" class="input-field">
+                <input type="password" id="pass-input" placeholder="Kunci Rahasia (Sandi)" class="input-field">
+                <button onclick="aksesMasuk()" class="btn-primary">Buka Lembaran Baru</button>
+            </div>
+            <p class="footer-note">Aman & Pribadi. Hanya Anda yang memegang kuncinya.</p>
         </div>
-    </div>
+    </section>
 
-    <div id="v-dash" class="hidden" style="max-width:1000px; margin:auto; padding:60px 20px; position:relative; z-index:10;">
-        <h2 style="font-family:'Crimson Pro'; font-size:2.5rem;">Halo, <span id="display-user"></span></h2>
-        <div class="grid-themes">
-            <div class="theme-box" style="background:#2d5a27" onclick="bukaEditor('botanical')">BOTANICAL</div>
-            <div class="theme-box" style="background:#1a237e" onclick="bukaEditor('celestial')">CELESTIAL</div>
-            <div class="theme-box" style="background:#4e342e" onclick="bukaEditor('archive')">ARCHIVE</div>
-            <div class="theme-box" style="background:#ad1457" onclick="bukaEditor('watercolor')">WATERCOLOR</div>
+    <section id="main-dashboard" class="hidden">
+        <div class="container">
+            <h2 class="dash-title">Pilih Kanvas Jiwamu</h2>
+            <div class="theme-grid">
+                <div class="card botanical" onclick="pilihTema('Botanical')">🌿 Botanical</div>
+                <div class="card celestial" onclick="pilihTema('Celestial')">✨ Celestial</div>
+                <div class="card archive" onclick="pilihTema('Archive')">📜 Archive</div>
+                <div class="card watercolor" onclick="pilihTema('Watercolor')">🎨 Watercolor</div>
+            </div>
         </div>
-        <h3 style="margin-top:40px; border-bottom:2px solid #ddd; padding-bottom:15px;">Arsip Publik</h3>
-        <div id="arsip-list" style="margin-top:20px;"></div>
-    </div>
-
-    <div id="v-write" class="hidden write-screen">
-        <div id="pdf-content" class="paper-a4">
-            <input type="text" id="judul" class="title-word" placeholder="Judul Mahakarya">
-            <textarea id="isi" class="body-word" placeholder="Tuliskan naskah rapi Anda..."></textarea>
-        </div>
-
-        <div id="modal-share" class="share-modal">
-            <button onclick="bagikan('WA')" class="btn-ui" style="background:#25d366; color:white;">WhatsApp</button>
-            <button onclick="bagikan('FB')" class="btn-ui" style="background:#1877f2; color:white;">Facebook</button>
-            <button onclick="bagikan('IG')" class="btn-ui" style="background:#e4405f; color:white;">Instagram</button>
-        </div>
-
-        <div class="dock">
-            <button onclick="simpanKeArsip()" class="btn-ui" style="background:#2d5a27; color:white;">Simpan Publik</button>
-            <button onclick="cetakPDF()" class="btn-ui" style="background:#ad1457; color:white;">Unduh PDF</button>
-            <button onclick="document.getElementById('modal-share').style.display='flex'" class="btn-ui" style="background:#007bff; color:white;">Bagikan</button>
-            <button onclick="keDash()" class="btn-ui">Dashboard</button>
-        </div>
-    </div>
+    </section>
 
     <script>
-        let modeDaftar = false;
-        function toggleReg() { 
-            modeDaftar = !modeDaftar;
-            document.getElementById('auth-msg').innerText = modeDaftar ? "Buat Akun Baru" : "Silakan Masuk atau Daftar";
-            document.getElementById('reg-txt').innerText = modeDaftar ? "Sudah ada akun? Login." : "Belum ada akun? Daftar di sini.";
+        function aksesMasuk() {
+            const u = document.getElementById('user-input').value;
+            const p = document.getElementById('pass-input').value;
+
+            if (u === "" || p === "") {
+                alert("Harap isi nama dan sandi untuk memulai.");
+                return;
+            }
+
+            // SISTEM OTOMATIS: Jika akun baru, langsung simpan & masuk.
+            let savedPass = localStorage.getItem('pass_' + u);
+            if (!savedPass) {
+                localStorage.setItem('pass_' + u, p);
+                savedPass = p;
+            }
+
+            if (p === savedPass) {
+                localStorage.setItem('currentUser', u);
+                // Transisi halus
+                document.getElementById('landing-screen').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('landing-screen').style.display = 'none';
+                    document.getElementById('main-dashboard').classList.remove('hidden');
+                    document.getElementById('main-dashboard').classList.add('fade-in');
+                }, 500);
+            } else {
+                alert("Sandi tidak cocok dengan akun yang sudah ada!");
+            }
         }
 
-        function handleAuth() {
-            const u = document.getElementById('u-user').value;
-            if(u) { localStorage.setItem('user_aktif', u); keDash(); }
-        }
-
-        function keDash() {
-            document.querySelectorAll('body > div:not(.ornament-layer)').forEach(v => v.classList.add('hidden'));
-            document.getElementById('v-dash').classList.remove('hidden');
-            document.getElementById('display-user').innerText = localStorage.getItem('user_aktif');
-            renderArsip();
-        }
-
-        function bukaEditor(tema) {
-            document.querySelectorAll('body > div:not(.ornament-layer)').forEach(v => v.classList.add('hidden'));
-            document.getElementById('v-write').classList.remove('hidden');
-            const links = {
-                'botanical': 'url("https://www.transparentpng.com/download/leaves/green-leaves-png-images-12.png")',
-                'celestial': 'url("https://www.transparentpng.com/download/star/gold-star-transparent-background-21.png")',
-                'archive': 'url("https://www.transparentpng.com/download/book/old-book-transparent-background-12.png")',
-                'watercolor': 'url("https://www.transparentpng.com/download/watercolor/watercolor-splash-transparent-background-5.png")'
-            };
-            document.getElementById('orn-L').style.backgroundImage = links[tema];
-            document.getElementById('orn-R').style.backgroundImage = links[tema];
-            document.getElementById('judul').value = ""; document.getElementById('isi').value = "";
-        }
-
-        function simpanKeArsip() {
-            const t = document.getElementById('judul').value;
-            const b = document.getElementById('isi').value;
-            if(!t || !b) return alert("Naskah belum lengkap!");
-            let data = JSON.parse(localStorage.getItem('biip_arsip_db') || "[]");
-            data.push({ u: localStorage.getItem('user_aktif'), t, b, d: new Date().toLocaleDateString() });
-            localStorage.setItem('biip_arsip_db', JSON.stringify(data));
-            alert("Tersimpan di Arsip Publik!"); keDash();
-        }
-
-        function renderArsip() {
-            const container = document.getElementById('arsip-list');
-            const data = JSON.parse(localStorage.getItem('biip_arsip_db') || "[]").filter(x => x.u === localStorage.getItem('user_aktif'));
-            container.innerHTML = data.reverse().map(s => `
-                <div style="background:white; padding:20px; border-radius:20px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 5px 15px rgba(0,0,0,0.03);">
-                    <div><strong>${s.t}</strong><br><small>${s.d}</small></div>
-                    <button onclick="bacaKembali('${encodeURIComponent(s.t)}', '${encodeURIComponent(s.b)}')" class="btn-ui" style="background:#1a1a1a; color:white;">BACA KEMBALI</button>
-                </div>
-            `).join('');
-        }
-
-        function bacaKembali(t, b) {
-            bukaEditor('archive');
-            document.getElementById('judul').value = decodeURIComponent(t);
-            document.getElementById('isi').value = decodeURIComponent(b);
-        }
-
-        function cetakPDF() {
-            const element = document.getElementById('pdf-content');
-            const opt = {
-                margin: 0,
-                filename: (document.getElementById('judul').value || 'Mahakarya') + '.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-
-        function bagikan(p) {
-            alert(`Sistem mengunduh PDF rapi. Silakan lampirkan file yang terunduh ke ${p}.`);
-            cetakPDF();
-            if(p === 'WA') window.open("https://wa.me/", "_blank");
-            document.getElementById('modal-share').style.display = 'none';
+        function pilihTema(t) {
+            localStorage.setItem('temaDipilih', t);
+            window.location.href = 'tulis.html';
         }
     </script>
 </body>
